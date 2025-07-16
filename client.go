@@ -13,8 +13,8 @@ func GetClient() *client.Client {
 		fmt.Printf("decode hex failed of %v", err)
 		return nil
 	}
-	config := &client.Config{IsSMCrypto: false, GroupID: "group0", DisableSsl: false,
-		PrivateKey: privateKey, Host: "36.139.226.161", Port: 20200,
+	config := &client.Config{IsSMCrypto: false, GroupID: "group1", DisableSsl: true,
+		PrivateKey: privateKey, Host: "10.0.7.250", Port: 20200,
 		TLSCaFile:   "./ca1.crt",
 		TLSKeyFile:  "./sdk1.key",
 		TLSCertFile: "./sdk1.crt"}

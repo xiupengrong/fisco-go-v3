@@ -64,7 +64,7 @@ func TestGenerateKey(t *testing.T) {
 }
 
 func TestContractDeployment(t *testing.T) {
-	privateKey, _ := hex.DecodeString("49930679d7646539e4cc7551bea4920c06f881703b065ba7336605346e401498")
+	privateKey, _ := hex.DecodeString("145e247e170ba3afd6ae97e88f00dbc976c2345d521b0f6713355d19d8b80b58")
 	// disable ssl of node rpc
 	client := GetClient()
 	defer client.Close()
@@ -228,7 +228,7 @@ func TestGetCode(t *testing.T) {
 
 func TestGetTransactionReceipt(t *testing.T) {
 	client := GetClient()
-	receipt, err := client.GetTransactionReceipt(context.Background(), common.HexToHash("0xa37488f8393df2f3e140f811ff4d071bd77a891000a6cf365f7055d635a77404"), false)
+	receipt, err := client.GetTransactionReceipt(context.Background(), common.HexToHash("0x9604b7993effa78e62177918aab18ea1079ef445d54555ae69e8c1f86f2af495"), false)
 	if err != nil {
 		log.Fatalf("GetTransactionReceipt error: %v", err)
 	}
@@ -242,4 +242,25 @@ func TestName(t *testing.T) {
 		log.Fatalf("GetTransactionReceipt error: %v", err)
 	}
 	fmt.Println(num)
+
+	bl, err := client.GetBlockByNumber(context.Background(), 3, false, false)
+	if err != nil {
+		log.Fatalf("GetBlockByNumber error: %v", err)
+	}
+	fmt.Println(bl)
+	fmt.Println(bl.GetTransactions())
+
+	cid, err := client.GetChainID(context.Background())
+	if err != nil {
+		log.Fatalf("GetBlockByNumber error: %v", err)
+	}
+	gid := client.GetGroupID()
+	fmt.Println(gid)
+	fmt.Println(cid)
+
+	hs, err := client.GetTransactionByHash(context.Background(), common.HexToHash("0xca8936c00aa1718825938dc2eac12a3427a0f03e3f4b38be2ac35958816559aa"), false)
+	if err != nil {
+		log.Fatalf("GetTransactionByHash error: %v", err)
+	}
+	fmt.Println(hs)
 }
