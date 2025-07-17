@@ -219,7 +219,7 @@ func TestContractDeployment(t *testing.T) {
 
 func TestGetCode(t *testing.T) {
 	client := GetClient()
-	code, err := client.GetCode(context.Background(), common.HexToAddress("0x2Af6160E266F763652F433a80B94fc13F4065303"))
+	code, err := client.GetCode(context.Background(), common.HexToAddress("0x6849f21d1e455e9f0712b1e99fa4fcd23758e8f1"))
 	if err != nil {
 		log.Fatalf("GetCode error: %v", err)
 	}
@@ -228,7 +228,7 @@ func TestGetCode(t *testing.T) {
 
 func TestGetTransactionReceipt(t *testing.T) {
 	client := GetClient()
-	receipt, err := client.GetTransactionReceipt(context.Background(), common.HexToHash("0x9604b7993effa78e62177918aab18ea1079ef445d54555ae69e8c1f86f2af495"), false)
+	receipt, err := client.GetTransactionReceipt(context.Background(), common.HexToHash("0x0cd365feddea9023e8b6182892fbcfc239280dddbcd222af9ffdbbbae4cc4711"), false)
 	if err != nil {
 		log.Fatalf("GetTransactionReceipt error: %v", err)
 	}
@@ -258,7 +258,7 @@ func TestName(t *testing.T) {
 	fmt.Println(gid)
 	fmt.Println(cid)
 
-	hs, err := client.GetTransactionByHash(context.Background(), common.HexToHash("0xca8936c00aa1718825938dc2eac12a3427a0f03e3f4b38be2ac35958816559aa"), false)
+	hs, err := client.GetTransactionByHash(context.Background(), common.HexToHash("0x0cd365feddea9023e8b6182892fbcfc239280dddbcd222af9ffdbbbae4cc4711"), false)
 	if err != nil {
 		log.Fatalf("GetTransactionByHash error: %v", err)
 	}

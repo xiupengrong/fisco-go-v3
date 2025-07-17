@@ -13,11 +13,11 @@ func GetClient() *client.Client {
 		fmt.Printf("decode hex failed of %v", err)
 		return nil
 	}
-	config := &client.Config{IsSMCrypto: false, GroupID: "group1", DisableSsl: true,
+	config := &client.Config{IsSMCrypto: false, GroupID: "group0", DisableSsl: false,
 		PrivateKey: privateKey, Host: "10.0.7.250", Port: 20200,
-		TLSCaFile:   "./ca1.crt",
-		TLSKeyFile:  "./sdk1.key",
-		TLSCertFile: "./sdk1.crt"}
+		TLSCaFile:   "./ca.crt",
+		TLSKeyFile:  "./sdk.key",
+		TLSCertFile: "./sdk.crt"}
 	c, err := client.DialContext(context.Background(), config)
 	if err != nil {
 		fmt.Printf("Dial to %s:%d failed of %v", config.Host, config.Port, err)
