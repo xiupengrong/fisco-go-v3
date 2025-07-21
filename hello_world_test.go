@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"crypto/ecdsa"
-	"encoding/hex"
 	"fmt"
 	"github.com/FISCO-BCOS/go-sdk/v3/abi"
 	"github.com/FISCO-BCOS/go-sdk/v3/abi/bind"
@@ -64,7 +63,6 @@ func TestGenerateKey(t *testing.T) {
 }
 
 func TestContractDeployment(t *testing.T) {
-	privateKey, _ := hex.DecodeString("145e247e170ba3afd6ae97e88f00dbc976c2345d521b0f6713355d19d8b80b58")
 	// disable ssl of node rpc
 	client := GetClient()
 	defer client.Close()
@@ -93,7 +91,7 @@ func TestContractDeployment(t *testing.T) {
 
 	// 加载私钥
 	// 构造交易数据
-	priKey, err := crypto.ToECDSA(privateKey)
+	priKey, err := crypto.ToECDSA(client.PrivateKeyBytes())
 	if err != nil {
 		fmt.Println("ToECDSA出现错误:", err)
 		return
@@ -116,18 +114,20 @@ func TestContractDeployment(t *testing.T) {
 	}
 
 	// 4. send tx
-	fmt.Printf("send tx, hash: %s\n", signedTx.Hash().Hex())
+	//fmt.Printf("send tx, hash: %s\n", signedTx.Hash().Hex())
 	receipt, err := client.SendTransaction(context.Background(), signedTx)
 	if err != nil {
 		log.Fatalf("SendTransaction error: %v", err)
 	}
+	fmt.Println("receipt.TransactionHash:", receipt.TransactionHash)
+	fmt.Println("receipt.BlockNumber:", receipt.BlockNumber)
 	fmt.Printf("contract address: %s\n", receipt.ContractAddress)
 	if receipt.Status != 0 {
 		log.Fatalf("receipt status error, status: %v, message: %s", receipt.Status, receipt.GetErrorMessage())
 	}
 	// call helloworld set
 	address := common.HexToAddress(receipt.ContractAddress)
-	fmt.Println(address.String())
+	//fmt.Println(address.String())
 	time.Sleep(10 * time.Second)
 	fmt.Println("sleep。。。。")
 	//SubscribeEventLogs
@@ -228,7 +228,7 @@ func TestGetCode(t *testing.T) {
 
 func TestGetTransactionReceipt(t *testing.T) {
 	client := GetClient()
-	receipt, err := client.GetTransactionReceipt(context.Background(), common.HexToHash("0x0cd365feddea9023e8b6182892fbcfc239280dddbcd222af9ffdbbbae4cc4711"), false)
+	receipt, err := client.GetTransactionReceipt(context.Background(), common.HexToHash("0xfa3dccda795461d3e0af18c59eeec79d4d0fe10bc349a2fe4bf6b40b52bd1052"), true)
 	if err != nil {
 		log.Fatalf("GetTransactionReceipt error: %v", err)
 	}
@@ -243,7 +243,7 @@ func TestName(t *testing.T) {
 	}
 	fmt.Println(num)
 
-	bl, err := client.GetBlockByNumber(context.Background(), 3, false, false)
+	bl, err := client.GetBlockByNumber(context.Background(), 16, false, false)
 	if err != nil {
 		log.Fatalf("GetBlockByNumber error: %v", err)
 	}
@@ -258,7 +258,13 @@ func TestName(t *testing.T) {
 	fmt.Println(gid)
 	fmt.Println(cid)
 
-	hs, err := client.GetTransactionByHash(context.Background(), common.HexToHash("0x0cd365feddea9023e8b6182892fbcfc239280dddbcd222af9ffdbbbae4cc4711"), false)
+	//peer, err := client.GetPeers(context.Background())
+	//if err != nil {
+	//	log.Fatalf("GetPeers error: %v", err)
+	//}
+	//fmt.Println(hex.EncodeToString(peer))
+	//
+	hs, err := client.GetTransactionByHash(context.Background(), common.HexToHash("0x683551cf0fccdbef63cc9b405fa1867f97e0d32f6d3dc3c793846fab93ac81c9"), false)
 	if err != nil {
 		log.Fatalf("GetTransactionByHash error: %v", err)
 	}

@@ -14,7 +14,7 @@ func GetClient() *client.Client {
 		return nil
 	}
 	config := &client.Config{IsSMCrypto: false, GroupID: "group0", DisableSsl: false,
-		PrivateKey: privateKey, Host: "10.0.7.250", Port: 20200,
+		PrivateKey: privateKey, Host: "10.0.7.251", Port: 20200,
 		TLSCaFile:   "./ca.crt",
 		TLSKeyFile:  "./sdk.key",
 		TLSCertFile: "./sdk.crt"}
